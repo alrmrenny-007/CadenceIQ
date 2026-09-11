@@ -6,11 +6,37 @@ The steps below are only for when you want real embedded players and a live
 database instead of the built-in sample content. All of this can be done from
 a phone browser.
 
-## 1. Getting on the web first (so you can test on your phone)
+## 1. Getting on the web with Render
 
-Easiest free option: [Netlify Drop](https://app.netlify.com/drop) — open it
-in your phone browser, upload the whole project folder, and it gives you a
-live URL in seconds. GitHub Pages also works if you already use GitHub.
+Render hosts static sites (HTML/CSS/JS like this one) for free, but it
+deploys from a GitHub (or GitLab) repo rather than a drag-and-drop upload —
+so you'll need your project in a repo first. All doable from a phone:
+
+1. **Get the code into GitHub.**
+   - Easiest on mobile: install the **GitHub** app, or just use github.com in
+     your browser. Create a new repository (e.g. `cadenceiq`).
+   - Upload the project files: on the repo page, tap "Add file" → "Upload
+     files", then select everything from this project folder (`index.html`,
+     `artist.html`, the `css` folder, the `js` folder, `README.md`). Commit.
+2. **Connect Render.**
+   - Go to https://render.com → sign up (you can sign in with GitHub, which
+     saves a step) → "New" → "Static Site".
+   - Pick the repo you just created and authorize Render to access it.
+3. **Configure the build.**
+   - Build Command: leave blank (there's nothing to build — it's plain
+     HTML/CSS/JS).
+   - Publish Directory: `.` (a single dot, meaning the repo root, since
+     `index.html` sits at the top level).
+4. Tap "Create Static Site". Render gives you a live URL like
+   `https://cadenceiq.onrender.com` within a minute or two.
+5. **Updating later:** any time you edit a file in the GitHub repo (even
+   editing directly in the GitHub app/website), Render automatically
+   redeploys the site with the change — no extra steps.
+
+Netlify Drop or GitHub Pages work too if you'd rather skip the GitHub-repo
+step, but Render is a solid free option if you want one place for hosting
+going forward — especially handy later if you add a small backend (e.g. a
+server-side Spotify token exchange), since Render also runs web services.
 
 ## 2. YouTube — for embedding real videos
 
@@ -39,7 +65,7 @@ Same idea — no key needed for embedding:
 **If you want the Spotify Web API later** (for search, top tracks, etc.):
 1. Go to https://developer.spotify.com/dashboard and log in.
 2. "Create app" → fill in any name/description → for the redirect URI you can
-   put your Netlify URL.
+   put your Render URL (e.g. `https://cadenceiq.onrender.com`).
 3. Copy the **Client ID** and **Client Secret** from the app settings.
 4. Note: the Spotify Web API only gives 30-second previews (often unavailable)
    and requires a server-side token exchange — the embed-link approach above
