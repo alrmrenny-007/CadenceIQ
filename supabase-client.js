@@ -26,10 +26,10 @@
  * ------------------------------------------------------------
  */
 
-const USE_SUPABASE = false;
+const USE_SUPABASE = true;
 
-const SUPABASE_URL = "https://YOUR-PROJECT.supabase.co";
-const SUPABASE_ANON_KEY = "YOUR-ANON-PUBLIC-KEY";
+const SUPABASE_URL = "https://vswlrdngaifzjrdvtgsr.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZzd2xyZG5nYWlmempyZHZ0Z3NyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkxNTg5MDYsImV4cCI6MjEwNDczNDkwNn0.RJMI3sdFxjx2BFAEV_dA9uP90EpP7UU_HHLTvGFk0b0";
 
 let _supabaseClient = null;
 
