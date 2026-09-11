@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CadenceIQ — Nigerian Music, Loud &amp; Clear</title>
+<meta name="description" content="Discover Nigeria's biggest artists, their awards, labels, and newest releases — plus a spotlight on rising talent." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<nav class="site-nav">
+  <a class="brand" href="index.html"><span class="dot"></span>Cadence<span class="naija">IQ</span></a>
+  <div class="nav-links">
+    <a href="#best">Best of the Best</a>
+    <a href="#releases">New Releases</a>
+    <a href="#rising">Rising Artists</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-marquee">
+    <div class="marquee-row left" id="marquee-left"></div>
+    <div class="marquee-row right" id="marquee-right"></div>
+  </div>
+  <div class="container hero-content">
+    <span class="eyebrow-tag">🇳🇬 Naija music, wall to wall</span>
+    <h1>The sound of Nigeria, all in one place.</h1>
+    <p class="lede">Awards, record labels, biographies, and the songs that made them icons — plus the newest names about to blow up next.</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="#best">Explore artists</a>
+      <a class="btn btn-ghost" href="#rising">Meet rising talent</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="section" id="best">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2>Best of the best</h2>
+          <p>The artists carrying Nigerian music to the world stage.</p>
+        </div>
+      </div>
+      <div class="rail" id="best-rail"></div>
+    </div>
+  </section>
+
+  <section class="section" id="releases">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2>New releases</h2>
+          <p>Fresh drops from established acts — tap to play.</p>
+        </div>
+      </div>
+      <div id="release-rail"></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2>Awards &amp; labels</h2>
+          <p>Who's signed where, and what they've won.</p>
+        </div>
+      </div>
+      <div class="rising-grid" id="labels-grid"></div>
+    </div>
+  </section>
+
+  <section class="section rising-section" id="rising">
+    <div class="container" style="padding-top:64px;padding-bottom:64px;">
+      <div class="section-head">
+        <div>
+          <h2>Rising &amp; newly signed</h2>
+          <p>Fresh names worth your ears before everyone else catches on.</p>
+        </div>
+      </div>
+      <div class="rising-grid" id="rising-grid"></div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <span>CadenceIQ — built for the culture.</span>
+    <span>Music &amp; playback via YouTube / Spotify. Artist info for editorial use.</span>
+  </div>
+</footer>
+
+<div class="player-overlay" id="player-overlay">
+  <div class="player-modal">
+    <div class="player-modal-head">
+      <h4 id="player-title">Now playing</h4>
+      <button class="close-btn" id="player-close">&times;</button>
+    </div>
+    <div class="player-options" id="player-body"></div>
+  </div>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
