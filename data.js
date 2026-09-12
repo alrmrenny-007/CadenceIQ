@@ -23,7 +23,7 @@
  * grab a video ID in 10 seconds from the YouTube app.
  */
 const HERO_VIDEO = {
-  youtubeId: "", // e.g. "obtogVwPq9o"
+  youtubeId: "HLnf2Hz7uNQ",
   credit: "Video via YouTube",
 };
 
