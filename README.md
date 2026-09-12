@@ -145,6 +145,40 @@ client-side code — that's what "anon public" means. Just make sure the RLS
 policy stays read-only (`select`) so nobody can write to your table from the
 browser.
 
+## 6. Adding real artist photos
+
+By default every artist shows as colored initials instead of a photo — that's
+on purpose. I don't pull in photos of real, named people on my own, since
+that touches on rights and likeness issues I stay away from. Adding one is a
+one-line edit whenever you're ready:
+
+1. Get a photo you have the right to use — options that are generally safe:
+   an artist/label's own official press kit or EPK, a photo the artist or
+   their label posted that you have permission to use, an image you took
+   yourself, or a properly-licensed stock/Creative Commons photo with
+   attribution where required. Avoid random Google Images results — many
+   aren't licensed for reuse.
+2. Upload it somewhere with a direct image URL — for example, host it inside
+   your own GitHub repo (e.g. add an `images/` folder, then use a link like
+   `https://raw.githubusercontent.com/you/cadenceiq/main/images/burna-boy.jpg`),
+   or use any image host that gives you a direct `.jpg`/`.png`/`.webp` link.
+3. In `data.js`, add an `image` field to that artist's object:
+   ```js
+   {
+     id: "burna-boy",
+     name: "Burna Boy",
+     image: "https://raw.githubusercontent.com/you/cadenceiq/main/images/burna-boy.jpg",
+     // ...rest of the fields stay the same
+   }
+   ```
+4. Save and reload — that artist now shows the photo everywhere (homepage
+   cards, the directory, and their profile page). Leave `image` out (or set
+   it to an empty string) to keep the colored-initials look for any artist.
+
+If you're using Supabase, add the URL to the `image` column for that row
+instead (via the Table Editor, or by editing the matching block in
+`seed-*.sql` and re-running it).
+
 ## Where to edit things
 
 - **Artists, songs, categories, hero video:** `data.js` (or Supabase, once connected)

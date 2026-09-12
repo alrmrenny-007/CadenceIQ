@@ -18,6 +18,7 @@
  *      status       text                 "legend", "established", or "rising"
  *      category     text                 e.g. "Afrobeats Icons", "Legends & Pioneers"
  *      hero_color   text                 e.g. "#FF7A3D"
+ *      image        text (optional)     URL to a real photo — leave null for initials
  *      bio          text
  *      awards       jsonb                [{year, name, work}]
  *      new_release  jsonb                {title, year}
@@ -71,6 +72,7 @@ async function fetchArtists() {
     status: row.status,
     category: row.category,
     heroColor: row.hero_color,
+    image: row.image || null,
     bio: row.bio,
     awards: row.awards || [],
     newRelease: row.new_release || null,

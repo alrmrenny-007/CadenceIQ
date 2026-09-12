@@ -67,10 +67,17 @@ function renderHeroVideo() {
 }
 
 /* ---------- card builders ---------- */
+function avatarHTML(a, extraClass) {
+  if (a.image) {
+    return `<div class="avatar${extraClass ? " " + extraClass : ""}" style="--card-accent:${a.heroColor}"><img src="${a.image}" alt="${a.name}" loading="lazy" /></div>`;
+  }
+  return `<div class="avatar${extraClass ? " " + extraClass : ""}" style="--card-accent:${a.heroColor}">${initials(a.name)}</div>`;
+}
+
 function artistCardHTML(a) {
   return `
     <a class="artist-card" href="artist.html?id=${a.id}" style="--card-accent:${a.heroColor}">
-      <div class="avatar" style="--card-accent:${a.heroColor}">${initials(a.name)}</div>
+      ${avatarHTML(a)}
       <h3>${a.name}</h3>
       <p class="role">${a.tagline}</p>
       <div class="badge-row">
@@ -94,7 +101,7 @@ function trackRowHTML(song, artist) {
 function risingCardHTML(a) {
   return `
     <div class="rising-card" style="--card-accent:${a.heroColor}">
-      <div class="avatar" style="--card-accent:${a.heroColor}">${initials(a.name)}</div>
+      ${avatarHTML(a)}
       <h3>${a.name}</h3>
       <p class="role">${a.tagline} · ${a.label}</p>
       <p class="bio-snip">${a.bio}</p>

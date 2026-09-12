@@ -29,7 +29,7 @@ async function renderArtistPage() {
       <div class="container">
         <a class="back-link" href="index.html">&larr; All artists</a>
         <div class="artist-hero-grid">
-          <div class="avatar" style="--card-accent:${artist.heroColor}">${initials(artist.name)}</div>
+          <div class="avatar" style="--card-accent:${artist.heroColor}">${artist.image ? `<img src="${artist.image}" alt="${artist.name}" loading="lazy" />` : initials(artist.name)}</div>
           <div>
             <h1>${artist.name}</h1>
             <p class="role">${artist.tagline}</p>
