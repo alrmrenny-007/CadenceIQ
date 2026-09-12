@@ -25,7 +25,7 @@ async function renderArtistPage() {
   document.documentElement.style.setProperty("--hero-tint", hexToRgba(artist.heroColor, 0.16));
 
   root.innerHTML = `
-    <section class="artist-hero" style="--hero-tint:${hexToRgba(artist.heroColor, 0.16)}">
+    <section class="artist-hero reveal" style="--hero-tint:${hexToRgba(artist.heroColor, 0.16)}">
       <div class="container">
         <a class="back-link" href="index.html">&larr; All artists</a>
         <div class="artist-hero-grid">
@@ -44,7 +44,7 @@ async function renderArtistPage() {
       </div>
     </section>
 
-    <section class="section">
+    <section class="section reveal">
       <div class="container two-col">
         <div>
           <h2 style="font-family:var(--font-display);margin-top:0;">Biography</h2>
@@ -93,6 +93,7 @@ async function renderArtistPage() {
   `;
 
   document.getElementById("artist-tracks").innerHTML = artist.songs.map((s) => trackRowHTML(s, artist)).join("");
+  if (window.initScrollReveal) window.initScrollReveal();
 
   document.body.addEventListener("click", (e) => {
     const row = e.target.closest(".track-row");

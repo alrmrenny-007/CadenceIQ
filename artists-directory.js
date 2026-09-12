@@ -49,12 +49,13 @@ function renderDirectory() {
   el.innerHTML = Object.entries(groups)
     .map(
       ([cat, items]) => `
-      <div class="section" style="padding-top:28px;padding-bottom:28px;">
+      <div class="section reveal" style="padding-top:28px;padding-bottom:28px;">
         <h2 style="font-family:var(--font-display);font-size:1.2rem;margin:0 0 18px;">${cat}</h2>
         <div class="directory-grid">${items.map(artistCardHTML).join("")}</div>
       </div>`
     )
     .join("");
+  if (window.initScrollReveal) window.initScrollReveal();
 }
 
 async function initArtistsPage() {

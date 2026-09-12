@@ -179,6 +179,8 @@ async function renderHome() {
     if (e.target.id === "player-overlay") closePlayer();
   });
   document.getElementById("player-close").addEventListener("click", closePlayer);
+
+  if (window.initScrollReveal) window.initScrollReveal();
 }
 
 document.addEventListener("DOMContentLoaded", () => {
