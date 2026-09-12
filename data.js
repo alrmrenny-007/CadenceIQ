@@ -24,7 +24,7 @@
  */
 const HERO_VIDEO = {
   youtubeId: "HLnf2Hz7uNQ",
-  credit: "Video via YouTube",
+  credit: "Wizkid — Kese",
 };
 
 const ARTISTS = [
