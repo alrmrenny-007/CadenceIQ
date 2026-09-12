@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Artist — CadenceIQ</title>
+<title>All Artists — CadenceIQ</title>
+<meta name="description" content="Every artist on CadenceIQ — legends, current stars, and rising talent — in one place." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -25,7 +26,19 @@
   </div>
 </nav>
 
-<main id="artist-root"></main>
+<header class="section" style="padding-bottom:0;">
+  <div class="container">
+    <h1 style="font-family:var(--font-display);font-size:clamp(1.8rem,4vw,2.6rem);margin:0 0 8px;">All artists</h1>
+    <p style="color:var(--text-muted);margin:0 0 24px;max-width:60ch;">Every act on CadenceIQ in one place — filter by status or just scroll.</p>
+    <div class="filter-row" id="filter-row"></div>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    <div id="directory"></div>
+  </div>
+</main>
 
 <footer class="site-footer">
   <div class="container">
@@ -38,7 +51,7 @@
 <script src="data.js"></script>
 <script src="supabase-client.js"></script>
 <script src="main.js"></script>
-<script src="artist.js"></script>
+<script src="artists-directory.js"></script>
 <script src="nav.js"></script>
 </body>
 </html>

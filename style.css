@@ -72,9 +72,11 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
   align-items: center;
   justify-content: space-between;
   padding: 18px 24px;
-  background: rgba(10, 14, 12, 0.82);
-  backdrop-filter: blur(14px);
+  background: rgba(10, 14, 12, 0.92);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   border-bottom: 1px solid var(--border);
+  transform: translateZ(0);
 }
 
 .brand {
@@ -99,6 +101,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 
 .nav-links {
   display: flex;
+  align-items: center;
   gap: 28px;
   font-size: 0.93rem;
   color: var(--text-muted);
@@ -106,6 +109,66 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 
 .nav-links a { transition: color 0.2s var(--ease); }
 .nav-links a:hover { color: var(--text); }
+.nav-links a.nav-cta {
+  color: var(--bg);
+  background: var(--accent-2);
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+.nav-links a.nav-cta:hover { background: #29c47e; color: var(--bg); }
+
+/* ---------- hamburger toggle (mobile) ---------- */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  flex: 0 0 auto;
+}
+.nav-toggle span {
+  display: block;
+  width: 18px;
+  height: 2px;
+  background: var(--text);
+  border-radius: 2px;
+  transition: transform 0.25s var(--ease), opacity 0.2s var(--ease);
+}
+.nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-toggle.open span:nth-child(2) { opacity: 0; }
+.nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+@media (max-width: 760px) {
+  .nav-toggle { display: flex; }
+  .nav-links {
+    position: fixed;
+    top: 65px;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 20px 18px;
+    transform: translateY(-8px);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.22s var(--ease), opacity 0.22s var(--ease);
+    z-index: 39;
+  }
+  .nav-links.open { transform: translateY(0); opacity: 1; pointer-events: auto; }
+  .nav-links a { padding: 12px 4px; width: 100%; border-bottom: 1px solid var(--border); }
+  .nav-links a:last-child { border-bottom: none; }
+  .nav-links a.nav-cta { text-align: center; margin-top: 6px; }
+}
 
 /* ==========================================================
    HERO — the one orchestrated motion moment on the homepage.
@@ -168,6 +231,8 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
   display: flex;
   white-space: nowrap;
   will-change: transform;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
   font-family: var(--font-display);
   font-weight: 700;
   font-size: 6.2vw;
@@ -178,8 +243,8 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 .marquee-row span { padding-right: 0.6em; }
 .marquee-row.right { -webkit-text-stroke: 1px rgba(255, 122, 61, 0.22); }
 
-@keyframes scrollLeft { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-@keyframes scrollRight { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+@keyframes scrollLeft { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(-50%, 0, 0); } }
+@keyframes scrollRight { from { transform: translate3d(-50%, 0, 0); } to { transform: translate3d(0, 0, 0); } }
 
 .marquee-row.left { animation: scrollLeft 38s linear infinite; }
 .marquee-row.right { animation: scrollRight 44s linear infinite; }
@@ -499,5 +564,26 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 .award-item { display: flex; justify-content: space-between; gap: 10px; padding: 10px 0; border-top: 1px solid var(--border); font-size: 0.88rem; }
 .award-item:first-of-type { border-top: none; padding-top: 0; }
 .award-item .yr { color: var(--gold); font-weight: 600; }
+
+/* ---------- artist directory page ---------- */
+.filter-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+.filter-chip {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: border-color 0.2s var(--ease), color 0.2s var(--ease), background 0.2s var(--ease);
+}
+.filter-chip:hover { color: var(--text); border-color: var(--accent-2); }
+.filter-chip.active { background: var(--accent-2); border-color: var(--accent-2); color: var(--bg); }
+.directory-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+}
+.directory-grid .artist-card { flex: none; }
 
 .not-found { padding: 100px 0; text-align: center; }

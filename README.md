@@ -10,6 +10,17 @@ a phone browser.
 Afrobeats/Alté-R&B/Amapiano, and 4 example "rising" artists grouped by genre
 (Amapiano, Afrobeats, Afro-Gospel, Highlife Revival). Add, remove, or
 recategorize any of them in `data.js` — see "Where to edit things" below.
+There's also `artists.html` — a filterable directory of every artist — linked
+from the nav on every page.
+
+**About the hero background video:** it ships empty on purpose (see section 2
+below) rather than with a guessed video ID, since a wrong or region-blocked ID
+would silently show a black box instead of a video. Takes about 10 seconds to
+add your own.
+
+**Mobile nav:** below ~760px wide, the nav links collapse behind a hamburger
+button (`nav.js` handles the open/close). Above that width they show as a
+normal row, same as before.
 
 ## 1. Getting on the web with Render
 
