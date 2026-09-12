@@ -6,8 +6,7 @@ function qs(name) {
 
 async function renderArtistPage() {
   const id = qs("id");
-  const all = await fetchArtists();
-  const combined = [...all, ...RISING_ARTISTS];
+  const combined = await fetchArtists();
   const artist = combined.find((a) => a.id === id);
 
   const root = document.getElementById("artist-root");

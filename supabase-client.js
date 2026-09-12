@@ -15,7 +15,8 @@
  *      tagline      text
  *      label        text
  *      genre        text
- *      status       text                 "established" or "rising"
+ *      status       text                 "legend", "established", or "rising"
+ *      category     text                 e.g. "Afrobeats Icons", "Legends & Pioneers"
  *      hero_color   text                 e.g. "#FF7A3D"
  *      bio          text
  *      awards       jsonb                [{year, name, work}]
@@ -68,6 +69,7 @@ async function fetchArtists() {
     label: row.label,
     genre: row.genre,
     status: row.status,
+    category: row.category,
     heroColor: row.hero_color,
     bio: row.bio,
     awards: row.awards || [],

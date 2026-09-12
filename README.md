@@ -6,6 +6,11 @@ The steps below are only for when you want real embedded players and a live
 database instead of the built-in sample content. All of this can be done from
 a phone browser.
 
+**What's included:** 2 Legends & Pioneers, 9 current-era artists across
+Afrobeats/Alté-R&B/Amapiano, and 4 example "rising" artists grouped by genre
+(Amapiano, Afrobeats, Afro-Gospel, Highlife Revival). Add, remove, or
+recategorize any of them in `data.js` — see "Where to edit things" below.
+
 ## 1. Getting on the web with Render
 
 Render hosts static sites (HTML/CSS/JS like this one) for free, but it
@@ -16,8 +21,7 @@ so you'll need your project in a repo first. All doable from a phone:
    - Easiest on mobile: install the **GitHub** app, or just use github.com in
      your browser. Create a new repository (e.g. `cadenceiq`).
    - Upload the project files: on the repo page, tap "Add file" → "Upload
-     files", then select everything from this project folder (`index.html`,
-     `artist.html`, the `css` folder, the `js` folder, `README.md`). Commit.
+     files", then select every file in this project folder. Commit.
 2. **Connect Render.**
    - Go to https://render.com → sign up (you can sign in with GitHub, which
      saves a step) → "New" → "Static Site".
@@ -33,12 +37,32 @@ so you'll need your project in a repo first. All doable from a phone:
    editing directly in the GitHub app/website), Render automatically
    redeploys the site with the change — no extra steps.
 
-Netlify Drop or GitHub Pages work too if you'd rather skip the GitHub-repo
-step, but Render is a solid free option if you want one place for hosting
-going forward — especially handy later if you add a small backend (e.g. a
-server-side Spotify token exchange), since Render also runs web services.
+## 2. Hero background video (Fela, Wizkid, or anyone else)
 
-## 2. YouTube — for embedding real videos
+The homepage hero can play a muted, looping video behind the headline — just
+that section, not the whole site.
+
+1. Open the video on YouTube (the app or the website).
+2. Tap Share → Copy Link. You'll get something like
+   `https://youtu.be/dQw4w9WgXcQ` or `...watch?v=dQw4w9WgXcQ`.
+3. The video ID is the part after `youtu.be/` or `v=` — in that example,
+   `dQw4w9WgXcQ`.
+4. Open `data.js`, find the `HERO_VIDEO` block near the top, and paste it in:
+   ```js
+   const HERO_VIDEO = {
+     youtubeId: "dQw4w9WgXcQ",
+     credit: "Fela Kuti — Zombie (official)",
+   };
+   ```
+5. Save and reload. Leave `youtubeId` as an empty string to go back to the
+   plain marquee-only hero.
+
+A couple of things worth knowing: mobile browsers generally only allow
+autoplay when a video is muted (already set up for you), and some rights
+holders disable embedding on specific uploads — if a chosen video doesn't
+show, try a different upload of the same song.
+
+## 3. YouTube — for embedding real videos on artist/song cards
 
 You do **not** need an API key just to embed a video (the site already does
 this automatically once you add an ID). You only need a key if you later want
@@ -47,7 +71,7 @@ the site to *search* YouTube automatically instead of you picking videos.
 **To embed a specific video right now:**
 1. Open the video on YouTube, tap Share → Copy Link.
 2. The ID is the part after `watch?v=`, e.g. `dQw4w9WgXcQ`.
-3. In `js/data.js`, add `youtubeId: "dQw4w9WgXcQ"` to that song's entry.
+3. In `data.js`, add `youtubeId: "dQw4w9WgXcQ"` to that song's entry.
 
 **If you want the YouTube Data API later** (for auto-search):
 1. Go to https://console.cloud.google.com
@@ -55,12 +79,12 @@ the site to *search* YouTube automatically instead of you picking videos.
 3. "Credentials" → "Create Credentials" → "API key". Copy it.
 4. Restrict the key to YouTube Data API v3 only (Credentials → edit key → API restrictions).
 
-## 3. Spotify — for embedding real tracks
+## 4. Spotify — for embedding real tracks
 
 Same idea — no key needed for embedding:
 1. Open the track in the Spotify app → Share → Copy Link.
 2. The ID is the part after `track/`, e.g. `3n3Ppam7vgaVa1iaRUc9Lp`.
-3. In `js/data.js`, add `spotifyId: "3n3Ppam7vgaVa1iaRUc9Lp"` to that song.
+3. In `data.js`, add `spotifyId: "3n3Ppam7vgaVa1iaRUc9Lp"` to that song.
 
 **If you want the Spotify Web API later** (for search, top tracks, etc.):
 1. Go to https://developer.spotify.com/dashboard and log in.
@@ -71,32 +95,58 @@ Same idea — no key needed for embedding:
    and requires a server-side token exchange — the embed-link approach above
    gives full playback with zero backend, so most sites like this stick with it.
 
-## 4. Supabase — for a real, editable artist database
+## 5. Supabase — for a real, editable artist database
 
-1. Go to https://supabase.com → sign up (free tier is enough) → "New project".
-2. Once it's created, go to Project Settings → API. Copy the **Project URL**
-   and the **anon public** key.
-3. Go to the Table Editor → "New table" → name it `artists` and add these
-   columns (case matters): `id` (text, primary key), `name` (text),
-   `tagline` (text), `label` (text), `genre` (text), `status` (text),
-   `hero_color` (text), `bio` (text), `awards` (jsonb), `new_release` (jsonb),
-   `songs` (jsonb).
-4. Go to Authentication → Policies (or the table's RLS tab) and add a policy
-   allowing public `SELECT` — this content is meant to be public, so this is safe.
-5. Paste rows in manually via the Table Editor, matching the shape used in
-   `js/data.js`.
-6. In `index.html` and `artist.html`, add this line above your other scripts:
-   `<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>`
-7. Open `js/supabase-client.js`, set `USE_SUPABASE = true`, and paste in your
-   Project URL and anon key.
+**This is already connected.** `supabase-client.js` has your project URL and
+anon key filled in, `USE_SUPABASE` is set to `true`, and both HTML pages load
+the Supabase library. The only thing left is creating (or updating) the table
+— split into six short files so each one is easy to paste into Supabase's
+SQL Editor on a phone:
 
-That's it — the site will now read live from your Supabase table, and if
-anything ever fails to load, it automatically falls back to the sample data
-so the site never breaks.
+1. Open your project at https://supabase.com/dashboard → **SQL Editor** →
+   "New query".
+2. Run these one at a time, in order — paste the whole file, hit **Run**,
+   clear the editor, paste the next one:
+   1. `seed-1-schema.sql` — creates the table + read policy
+   2. `seed-2-legends.sql` — Fela Kuti, King Sunny Adé
+   3. `seed-3-afrobeats-icons.sql` — Burna Boy, Wizkid, Davido, Rema, Ayra Starr
+   4. `seed-4-alte-rnb.sql` — Tems, Omah Lay, Tiwa Savage
+   5. `seed-5-amapiano.sql` — Asake
+   6. `seed-6-rising.sql` — all 4 example rising artists
+3. Reload the site — it's now reading live from Supabase instead of
+   `data.js`. If Supabase is ever unreachable, the site automatically falls
+   back to `data.js` so nothing breaks.
+
+**If you ran the old single `seed.sql` before:** these six files replace it —
+they're safe to run even if some rows already exist. The `on conflict (id)
+do update` clause in each insert updates existing rows instead of
+duplicating them, and `alter table ... add column if not exists` in the
+schema file safely adds the `category` column used for grouping.
+
+**To edit artists going forward:** use the Table Editor in Supabase (Table
+Editor → `artists`), or open the relevant `seed-*.sql` file, change one
+artist's values, and run just that one `insert ... values (...)` block. To
+add a brand-new artist, copy a block from the closest-matching file, tweak
+it, and run it.
+
+A note on the anon key: it's meant to be public and safe to ship in
+client-side code — that's what "anon public" means. Just make sure the RLS
+policy stays read-only (`select`) so nobody can write to your table from the
+browser.
 
 ## Where to edit things
 
-- **Artists & songs:** `js/data.js` (or Supabase, once connected)
-- **Colors, fonts, spacing:** `css/style.css` (all tokens at the top)
-- **Homepage layout:** `index.html` + `js/main.js`
-- **Artist profile layout:** `artist.html` + `js/artist.js`
+- **Artists, songs, categories, hero video:** `data.js` (or Supabase, once connected)
+- **Colors, fonts, spacing:** `style.css` (all tokens at the top)
+- **Homepage layout & rendering:** `index.html` + `main.js`
+- **Artist profile layout & rendering:** `artist.html` + `artist.js`
+
+### Adding a new artist or category
+
+In `data.js`, copy an existing object in `ARTISTS` (for established/legend
+acts) or `RISING_ARTISTS` (for upcoming acts), give it a unique `id`, and set
+`status` to `"legend"`, `"established"`, or `"rising"`. The `category` field
+is just a label used to group cards — use an existing one (e.g. "Afrobeats
+Icons") or invent a new one; new categories show up automatically without
+any other code changes. If you're using Supabase, add the row there instead
+(or add it to `data.js` and re-run the matching block from `seed.sql`).

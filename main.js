@@ -56,6 +56,16 @@ function closePlayer() {
   document.getElementById("player-body").innerHTML = "";
 }
 
+/* ---------- hero background video ---------- */
+function renderHeroVideo() {
+  const el = document.getElementById("hero-video");
+  if (!el || !HERO_VIDEO || !HERO_VIDEO.youtubeId) return;
+  el.innerHTML = `
+    <iframe src="https://www.youtube.com/embed/${HERO_VIDEO.youtubeId}?autoplay=1&mute=1&loop=1&playlist=${HERO_VIDEO.youtubeId}&controls=0&modestbranding=1&rel=0&showinfo=0"
+      title="Hero background video" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    <span class="hero-video-credit">${HERO_VIDEO.credit || ""}</span>`;
+}
+
 /* ---------- card builders ---------- */
 function artistCardHTML(a) {
   return `
@@ -97,19 +107,26 @@ function risingCardHTML(a) {
 
 /* ---------- render homepage ---------- */
 async function renderHome() {
-  const artists = (await fetchArtists()).filter((a) => a.status === "established");
+  renderHeroVideo();
+
+  const all = await fetchArtists();
+  const legends = all.filter((a) => a.status === "legend");
+  const artists = all.filter((a) => a.status === "established");
   const rising = RISING_ARTISTS;
 
   // Hero marquee: artist names, duplicated for seamless loop
-  const names = artists.map((a) => a.name);
+  const marqueeNames = [...legends, ...artists].map((a) => a.name);
   const rowText = (arr) => arr.map((n) => `<span>${n}</span>`).join("");
-  document.getElementById("marquee-left").innerHTML = rowText([...names, ...names]);
-  document.getElementById("marquee-right").innerHTML = rowText([...names].reverse().concat([...names].reverse()));
+  document.getElementById("marquee-left").innerHTML = rowText([...marqueeNames, ...marqueeNames]);
+  document.getElementById("marquee-right").innerHTML = rowText([...marqueeNames].reverse().concat([...marqueeNames].reverse()));
+
+  // Legends & Pioneers rail
+  document.getElementById("legends-rail").innerHTML = legends.map(artistCardHTML).join("");
 
   // Best of the Best rail
   document.getElementById("best-rail").innerHTML = artists.map(artistCardHTML).join("");
 
-  // New releases rail (one track per artist, their newest)
+  // New releases rail (one track per current-era artist, their newest)
   const releases = artists.map((a) => ({
     artist: a,
     song: a.songs[0],
@@ -118,8 +135,8 @@ async function renderHome() {
     .map((r) => trackRowHTML(r.song, r.artist))
     .join("");
 
-  // Awards & labels grid
-  document.getElementById("labels-grid").innerHTML = artists
+  // Awards & labels grid (legends + current stars)
+  document.getElementById("labels-grid").innerHTML = [...legends, ...artists]
     .map(
       (a) => `
       <div class="side-card">
@@ -133,8 +150,21 @@ async function renderHome() {
     )
     .join("");
 
-  // Rising artists
-  document.getElementById("rising-grid").innerHTML = rising.map(risingCardHTML).join("");
+  // Rising artists — grouped by genre category
+  const groups = {};
+  rising.forEach((a) => {
+    const cat = a.category || "Rising";
+    (groups[cat] = groups[cat] || []).push(a);
+  });
+  document.getElementById("rising-grid").innerHTML = Object.entries(groups)
+    .map(
+      ([cat, list]) => `
+      <div class="rising-group">
+        <h3 class="rising-group-title">${cat}</h3>
+        <div class="rising-grid-inner">${list.map(risingCardHTML).join("")}</div>
+      </div>`
+    )
+    .join("");
 
   // Delegate play-button clicks
   document.body.addEventListener("click", (e) => {
