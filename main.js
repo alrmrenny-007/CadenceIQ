@@ -66,7 +66,7 @@ function renderHeroVideo() {
     <span class="hero-video-credit">${HERO_VIDEO.credit || ""}</span>`;
 }
 
-/* ---------- card builders ---------- */
+/* ---------- card builders (bold, image-forward tiles) ---------- */
 function avatarHTML(a, extraClass) {
   if (a.image) {
     return `<div class="avatar${extraClass ? " " + extraClass : ""}" style="--card-accent:${a.heroColor}"><img src="${a.image}" alt="${a.name}" loading="lazy" /></div>`;
@@ -76,17 +76,27 @@ function avatarHTML(a, extraClass) {
 
 function artistCardHTML(a) {
   return `
-    <a class="artist-card" href="artist.html?id=${a.id}" style="--card-accent:${a.heroColor}">
+    <a class="tile" href="artist.html?id=${a.id}">
       ${avatarHTML(a)}
-      <h3>${a.name}</h3>
-      <p class="role">${a.tagline}</p>
-      <div class="badge-row">
-        <span class="badge">${a.genre}</span>
-        ${a.awards && a.awards.length ? `<span class="badge award">${a.awards.length} award${a.awards.length > 1 ? "s" : ""}</span>` : ""}
+      <div class="tile-caption">
+        <div class="name">${a.name}</div>
+        <div class="sub">${a.tagline}</div>
       </div>
     </a>`;
 }
 
+function releaseTileHTML(song, artist) {
+  return `
+    <div class="tile track-tile" data-song='${JSON.stringify(song).replace(/'/g, "&apos;")}' data-artist="${artist.name}">
+      ${avatarHTML(artist)}
+      <div class="tile-caption">
+        <div class="name">${song.title}</div>
+        <div class="sub">${artist.name}</div>
+      </div>
+    </div>`;
+}
+
+/* Row-style track listing — used on the artist profile page's discography */
 function trackRowHTML(song, artist) {
   return `
     <div class="track-row" data-song='${JSON.stringify(song).replace(/'/g, "&apos;")}' data-artist="${artist.name}">
@@ -100,14 +110,15 @@ function trackRowHTML(song, artist) {
 
 function risingCardHTML(a) {
   return `
-    <div class="rising-card" style="--card-accent:${a.heroColor}">
+    <div class="tile">
       ${avatarHTML(a)}
-      <h3>${a.name}</h3>
-      <p class="role">${a.tagline} · ${a.label}</p>
-      <p class="bio-snip">${a.bio}</p>
-      <div class="actions">
-        <a class="btn btn-primary btn-sm" href="${spotifySearchUrl(a.playlistSearch || a.name + " playlist")}" target="_blank" rel="noopener">Playlist</a>
-        <a class="btn btn-ghost btn-sm" href="artist.html?id=${a.id}">Full bio</a>
+      <div class="tile-caption">
+        <div class="name">${a.name}</div>
+        <div class="sub">${a.tagline} · ${a.label}</div>
+        <div class="tile-links">
+          <a href="${spotifySearchUrl(a.playlistSearch || a.name + " playlist")}" target="_blank" rel="noopener">Playlist</a>
+          <a href="artist.html?id=${a.id}">Full bio</a>
+        </div>
       </div>
     </div>`;
 }
@@ -133,13 +144,13 @@ async function renderHome() {
   // Best of the Best rail
   document.getElementById("best-rail").innerHTML = artists.map(artistCardHTML).join("");
 
-  // New releases rail (one track per current-era artist, their newest)
+  // New Music grid (one track per current-era artist, their newest)
   const releases = artists.map((a) => ({
     artist: a,
     song: a.songs[0],
   }));
   document.getElementById("release-rail").innerHTML = releases
-    .map((r) => trackRowHTML(r.song, r.artist))
+    .map((r) => releaseTileHTML(r.song, r.artist))
     .join("");
 
   // Awards & labels grid (legends + current stars)
@@ -167,15 +178,15 @@ async function renderHome() {
     .map(
       ([cat, list]) => `
       <div class="rising-group">
-        <h3 class="rising-group-title">${cat}</h3>
-        <div class="rising-grid-inner">${list.map(risingCardHTML).join("")}</div>
+        <h3 class="rising-group-title-editorial">${cat}</h3>
+        <div class="tile-grid">${list.map(risingCardHTML).join("")}</div>
       </div>`
     )
     .join("");
 
-  // Delegate play-button clicks
+  // Delegate play-button clicks (row-style on artist page, tile-style on homepage)
   document.body.addEventListener("click", (e) => {
-    const row = e.target.closest(".track-row");
+    const row = e.target.closest(".track-row, .track-tile");
     if (row) {
       const song = JSON.parse(row.dataset.song.replace(/&apos;/g, "'"));
       openPlayer(song, row.dataset.artist);

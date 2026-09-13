@@ -6,7 +6,7 @@ let __activeFilter = "all";
 const STATUS_LABELS = {
   all: "All",
   legend: "Legends",
-  established: "Best of the Best",
+  established: "Artists",
   rising: "Rising",
 };
 
@@ -50,8 +50,8 @@ function renderDirectory() {
     .map(
       ([cat, items]) => `
       <div class="section reveal" style="padding-top:28px;padding-bottom:28px;">
-        <h2 style="font-family:var(--font-display);font-size:1.2rem;margin:0 0 18px;">${cat}</h2>
-        <div class="directory-grid">${items.map(artistCardHTML).join("")}</div>
+        <h2 class="section-label" style="margin:0 0 18px;">${cat}</h2>
+        <div class="tile-grid">${items.map(artistCardHTML).join("")}</div>
       </div>`
     )
     .join("");

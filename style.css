@@ -175,7 +175,13 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
   color: var(--text-muted);
 }
 
-.nav-links a { transition: color 0.2s var(--ease); }
+.nav-links a {
+  transition: color 0.2s var(--ease);
+  text-transform: uppercase;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
 .nav-links a:hover { color: var(--text); }
 .nav-links a.nav-cta {
   color: var(--bg);
@@ -678,6 +684,102 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 .not-found { padding: 100px 0; text-align: center; }
 
 /* ==========================================================
+   Editorial section labels + "Show All" links (Mavin-style)
+   ========================================================== */
+.section-label-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 26px;
+}
+.section-label {
+  font-family: var(--font-display);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 1rem;
+  color: var(--text);
+  margin: 0;
+}
+.section-label .accent-dot { color: var(--accent); }
+.show-all-link {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent-2);
+  white-space: nowrap;
+}
+.show-all-link:hover { text-decoration: underline; }
+
+/* ==========================================================
+   Image-forward tiles — big square image, caption below.
+   Used for artists, releases, and rising acts alike.
+   ========================================================== */
+.tile-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 20px 18px;
+}
+.tile {
+  display: block;
+  color: var(--text);
+  transition: transform 0.28s var(--ease);
+}
+.tile:hover { transform: translateY(-4px); }
+.tile .avatar { margin-bottom: 0; border-radius: 4px; }
+.tile-caption { padding-top: 12px; }
+.tile-caption .name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.82rem;
+  letter-spacing: 0.03em;
+  line-height: 1.3;
+}
+.tile-caption .sub {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-top: 3px;
+}
+.tile-links { display: flex; gap: 14px; margin-top: 8px; }
+.tile-links a {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--accent-2);
+}
+.tile-links a:hover { text-decoration: underline; }
+
+/* Play affordance over track tiles in the New Music grid */
+.track-tile { cursor: pointer; }
+.track-tile .avatar { position: relative; }
+.track-tile .avatar::before {
+  content: "▶";
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: #fff;
+  background: rgba(6, 8, 7, 0.4);
+  opacity: 0;
+  transition: opacity 0.22s var(--ease);
+}
+.track-tile:hover .avatar::before { opacity: 1; }
+
+.rising-group-title-editorial {
+  font-family: var(--font-display);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.85rem;
+  color: var(--accent-2);
+  margin: 0 0 14px;
+}
+
+/* ==========================================================
    Scroll reveal — sections slide/fade in as they enter view.
    Driven by reveal.js toggling .in-view via IntersectionObserver.
    ========================================================== */
@@ -689,40 +791,33 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 .reveal.in-view { opacity: 1; transform: translateY(0); }
 
 /* Staggered cascade for cards inside a revealed section */
-.reveal .rail > *,
+.reveal .tile-grid > *,
 .reveal .directory-grid > *,
-.reveal .rising-grid-inner > *,
 .reveal .rising-grid > * {
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 0.55s var(--ease), transform 0.55s var(--ease);
 }
-.reveal.in-view .rail > *,
+.reveal.in-view .tile-grid > *,
 .reveal.in-view .directory-grid > *,
-.reveal.in-view .rising-grid-inner > *,
 .reveal.in-view .rising-grid > * {
   opacity: 1;
   transform: translateY(0);
 }
-.reveal.in-view .rail > *:nth-child(1) { transition-delay: 0.03s; }
-.reveal.in-view .rail > *:nth-child(2) { transition-delay: 0.08s; }
-.reveal.in-view .rail > *:nth-child(3) { transition-delay: 0.13s; }
-.reveal.in-view .rail > *:nth-child(4) { transition-delay: 0.18s; }
-.reveal.in-view .rail > *:nth-child(5) { transition-delay: 0.23s; }
-.reveal.in-view .rail > *:nth-child(6) { transition-delay: 0.28s; }
-.reveal.in-view .rail > *:nth-child(n+7) { transition-delay: 0.32s; }
+.reveal.in-view .tile-grid > *:nth-child(1) { transition-delay: 0.03s; }
+.reveal.in-view .tile-grid > *:nth-child(2) { transition-delay: 0.08s; }
+.reveal.in-view .tile-grid > *:nth-child(3) { transition-delay: 0.13s; }
+.reveal.in-view .tile-grid > *:nth-child(4) { transition-delay: 0.18s; }
+.reveal.in-view .tile-grid > *:nth-child(5) { transition-delay: 0.23s; }
+.reveal.in-view .tile-grid > *:nth-child(6) { transition-delay: 0.28s; }
+.reveal.in-view .tile-grid > *:nth-child(n+7) { transition-delay: 0.32s; }
 .reveal.in-view .directory-grid > *:nth-child(1),
-.reveal.in-view .rising-grid-inner > *:nth-child(1),
 .reveal.in-view .rising-grid > *:nth-child(1) { transition-delay: 0.03s; }
 .reveal.in-view .directory-grid > *:nth-child(2),
-.reveal.in-view .rising-grid-inner > *:nth-child(2),
 .reveal.in-view .rising-grid > *:nth-child(2) { transition-delay: 0.08s; }
 .reveal.in-view .directory-grid > *:nth-child(3),
-.reveal.in-view .rising-grid-inner > *:nth-child(3),
 .reveal.in-view .rising-grid > *:nth-child(3) { transition-delay: 0.13s; }
 .reveal.in-view .directory-grid > *:nth-child(4),
-.reveal.in-view .rising-grid-inner > *:nth-child(4),
 .reveal.in-view .rising-grid > *:nth-child(4) { transition-delay: 0.18s; }
 .reveal.in-view .directory-grid > *:nth-child(n+5),
-.reveal.in-view .rising-grid-inner > *:nth-child(n+5),
 .reveal.in-view .rising-grid > *:nth-child(n+5) { transition-delay: 0.23s; }
