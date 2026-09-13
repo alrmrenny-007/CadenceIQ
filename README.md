@@ -179,6 +179,30 @@ If you're using Supabase, add the URL to the `image` column for that row
 instead (via the Table Editor, or by editing the matching block in
 `seed-*.sql` and re-running it).
 
+## 7. The Image Manager (paste-a-link, see it live)
+
+There's now an `admin.html` page — open it and every artist shows as a tile
+with an input box under it. Paste an image URL and it renders instantly in
+the exact same style used across the real site, so you can check it looks
+right before saving anything. It also checks the link actually loads and
+tells you if it doesn't.
+
+When you're happy with what you see, use one of the two buttons at the
+bottom:
+- **Generate Supabase SQL** — since you're already connected, this is the
+  one to use. It writes an `update` statement for every artist you added a
+  link for; paste the result into Supabase's SQL Editor and run it.
+- **Generate data.js snippet** — if you're not using Supabase, this gives
+  you the exact `image: "..."` line to paste into that artist's object in
+  `data.js`.
+
+One thing worth knowing: this page isn't password-protected — it's a plain
+HTML page like the rest of the site, so anyone who knows the URL could open
+it. It won't show up in search results or site navigation, but it's not a
+locked door either. Don't paste anything sensitive there, and if that ever
+becomes a concern, just delete `admin.html`/`admin.js` from your repo (or
+ask me and I can help add a simple password gate).
+
 ## Where to edit things
 
 - **Artists, songs, categories, hero video:** `data.js` (or Supabase, once connected)

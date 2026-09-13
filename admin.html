@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Image Manager — CadenceIQ (private)</title>
+<meta name="robots" content="noindex, nofollow" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+<style>
+  .admin-wrap { max-width: 1100px; margin: 0 auto; padding: 28px 20px 80px; }
+  .admin-header { margin-bottom: 8px; }
+  .admin-header h1 { font-family: var(--font-display); font-size: 1.6rem; margin: 0 0 6px; }
+  .admin-header p { color: var(--text-muted); margin: 0 0 28px; font-size: 0.92rem; max-width: 62ch; }
+  .admin-tile { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 14px; }
+  .admin-tile:hover { transform: none; }
+  .admin-tile .avatar { margin-bottom: 0; }
+  .admin-input {
+    margin-top: 10px;
+    width: 100%;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    padding: 9px 11px;
+    font-size: 0.78rem;
+    font-family: var(--font-body);
+  }
+  .admin-input:focus { outline: none; border-color: var(--accent-2); }
+  .admin-status { font-size: 0.7rem; margin-top: 6px; min-height: 14px; }
+  .admin-status.ok { color: var(--accent-2); }
+  .admin-status.checking { color: var(--text-muted); }
+  .admin-status.bad { color: #ff6b6b; }
+  .export-panel {
+    margin-top: 48px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 22px;
+  }
+  .export-panel h2 { font-family: var(--font-display); font-size: 1.1rem; margin: 0 0 8px; }
+  .export-panel p { color: var(--text-muted); font-size: 0.85rem; margin: 0 0 16px; }
+  .export-output {
+    width: 100%;
+    min-height: 140px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-family: monospace;
+    font-size: 0.78rem;
+    padding: 12px;
+    margin-top: 14px;
+    display: none;
+  }
+  .copy-status { font-size: 0.78rem; color: var(--accent-2); margin-left: 10px; }
+</style>
+</head>
+<body>
+
+<div class="liquid-bg" aria-hidden="true">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+</div>
+
+<nav class="site-nav">
+  <a class="brand" href="index.html"><span class="dot"></span>Cadence<span class="naija">IQ</span></a>
+  <div class="nav-links">
+    <a href="index.html">Back to site</a>
+  </div>
+</nav>
+
+<div class="admin-wrap">
+  <div class="admin-header">
+    <h1>Image Manager</h1>
+    <p>Paste a direct image link for any artist — it renders instantly below, in the exact tile style used on the real site, so you can see it's aligned before committing anything. This page is private: it's not linked from the site nav, and search engines are told not to index it.</p>
+  </div>
+
+  <div class="tile-grid" id="admin-grid"></div>
+
+  <div class="export-panel">
+    <h2>Save your changes</h2>
+    <p>Once the previews look right, generate an update script for whichever setup you're using, then copy/paste it over.</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+      <button class="btn btn-primary btn-sm" id="gen-sql">Generate Supabase SQL</button>
+      <button class="btn btn-ghost btn-sm" id="gen-datajs">Generate data.js snippet</button>
+      <span class="copy-status" id="copy-status"></span>
+    </div>
+    <textarea class="export-output" id="export-output" readonly></textarea>
+  </div>
+</div>
+
+<script src="data.js"></script>
+<script src="main.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>
